@@ -30,6 +30,7 @@ It includes sections for:
 
 - **HTML5**
 - **CSS3**
-- **JavaScript** *(for interactivity and animations)*
+- **JAVA**
+- **C**
 - **Responsive Design Principles**
 - **Git & GitHub** *(for version control and hosting)*
