@@ -31,6 +31,7 @@
       display:flex;
       justify-content:center;
       padding:40px 20px;
+      overflow-x: hidden;
     }
 
     .container{
@@ -38,7 +39,138 @@
       max-width:var(--max-width);
     }
 
-    /* Header / Hero */
+    /* ---------- INTRO OVERLAY (fixed) ---------- */
+    .intro-overlay{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: radial-gradient( circle at 10% 10%, rgba(78,161,255,0.14), transparent 12%),
+                  linear-gradient(180deg, rgba(4,6,8,0.96), rgba(4,6,8,0.9));
+      z-index:9999;
+      color:var(--white);
+      flex-direction:column;
+      padding:30px;
+    }
+
+    /* improved intro card: overflow hidden and stacking */
+    .intro-card{
+      width:min(1000px,92%);
+      max-width:1000px;
+      border-radius:20px;
+      padding:28px 32px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      box-shadow: 0 20px 60px rgba(2,6,23,0.7);
+      display:flex;
+      gap:22px;
+      align-items:center;
+      overflow:hidden;        /* garante que nada vaze para fora do cartão */
+      position:relative;
+    }
+
+    .intro-left{
+      flex:1;
+      min-width:0;
+      position:relative;
+      z-index:2;              /* texto acima da imagem */
+    }
+
+    /* image now behind text, can't capture clicks */
+    .intro-right{
+      width:240px;
+      height:140px;
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(135deg, rgba(78,161,255,0.14), rgba(125,224,255,0.06));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transform: rotate(-6deg);
+      box-shadow: 0 12px 40px rgba(78,161,255,0.08);
+      position:relative;
+      z-index:1;              /* imagem atrás do texto */
+      pointer-events: none;   /* evita que a imagem capture cliques */
+      opacity: 0.98;
+    }
+
+    .intro-right img{
+      width:110%;
+      height:110%;
+      object-fit:cover;
+      transform:rotate(6deg) translateY(2px);
+      display:block;
+      filter: drop-shadow(0 6px 20px rgba(2,6,23,0.45));
+    }
+
+    .eyebrow-intro{font-size:13px;color:var(--accent);font-weight:700;letter-spacing:1px;}
+    .intro-title{ /* allows wrapping and prevents overflow */
+      font-size:34px;
+      color:var(--white);
+      font-weight:800;
+      margin-top:8px;
+      line-height:1.05;
+      overflow-wrap:break-word;
+      word-break:break-word;
+      white-space:normal;
+      max-width:100%;
+      display:block;
+    }
+    .intro-sub{color:var(--muted);margin-top:10px;max-width:60ch}
+
+    /* typing/reveal effect (wraps now) */
+    .type-line{
+      display:inline-block;
+      white-space:normal;            /* permite quebra automática */
+      overflow-wrap:break-word;
+      word-break:break-word;
+      vertical-align:middle;
+      border-right:2px solid rgba(255,255,255,0.2);
+      padding-right:6px;
+      animation: caret 900ms steps(1) infinite;
+    }
+    @keyframes caret {50%{border-color:transparent}}
+
+    .intro-actions{margin-top:18px;display:flex;gap:12px}
+    .btn{
+      background:var(--accent);
+      color:#061126;
+      padding:10px 14px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:700;
+      cursor:pointer;
+      border:none;
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.06);
+    }
+    .skip{
+      position:absolute;
+      top:10px; right:12px;
+      background:transparent;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.04);
+      padding:6px 8px;border-radius:8px;cursor:pointer;
+      z-index:3;
+    }
+
+    /* responsive tweak for intro */
+    @media (max-width:900px){
+      .intro-card{flex-direction:column;gap:18px;padding:20px}
+      .intro-right{width:100%;height:160px;transform:none}
+      .intro-right img{transform:none; width:100%; height:100%}
+    }
+    @media (max-width:520px){
+      .intro-title{font-size:20px}
+      .intro-sub{font-size:14px}
+      .intro-card{padding:18px}
+      .intro-right{height:120px}
+    }
+
+    /* ---------- MAIN SITE (kept and slightly adjusted) ---------- */
     .hero{
       display:grid;
       grid-template-columns: 120px 1fr;
@@ -63,7 +195,6 @@
     .hero p.handle{margin:6px 0 0;color:var(--muted)}
     .hero p.lead{margin-top:8px;color:var(--muted);max-width:760px}
 
-    /* Layout sections */
     .grid{
       display:grid;
       grid-template-columns: 2fr 1fr;
@@ -71,7 +202,6 @@
       align-items:start;
     }
 
-    /* Cards gerais */
     .card{
       background:var(--card);
       padding:18px;
@@ -90,7 +220,6 @@
       padding:6px 0 0;color:var(--muted)
     }
 
-    /* Projects */
     .projects{
       display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
     }
@@ -109,7 +238,6 @@
       transform:translateY(-5px);
     }
 
-    /* === THUMB STYLE (option A) === */
     .project .thumb{
       width:100px;
       height:70px;
@@ -134,7 +262,6 @@
     .tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
     .tag{font-size:12px;padding:6px 8px;background:rgba(255,255,255,0.03);border-radius:999px;color:var(--muted)}
 
-    /* Sidebar */
     .sidebar .skills{display:grid;gap:10px}
     .skill{display:flex;flex-direction:column}
     .skill .label{font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
@@ -149,7 +276,7 @@
 
     footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
 
-    /* Responsiveness */
+    /* Responsiveness for main site */
     @media (max-width:900px){
       .grid{grid-template-columns:1fr}
       .projects{grid-template-columns:1fr}
@@ -164,11 +291,44 @@
     /* small animations */
     .fade-up{opacity:0;transform:translateY(8px);animation:fadeUp .6s ease forwards}
     @keyframes fadeUp{to{opacity:1;transform:none}}
+
+    /* subtle appear for main after intro hide */
+    .site-hidden{
+      filter: blur(4px) brightness(.6);
+      pointer-events: none;
+      user-select: none;
+      transform: scale(.995);
+      transition: all .6s ease;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <!-- INTRO OVERLAY -->
+  <div class="intro-overlay" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+    <button class="skip" id="skipBtn" aria-label="Skip intro">Skip ✦</button>
 
+    <div class="intro-card" role="document" aria-describedby="introDesc">
+      <div class="intro-left">
+        <div class="eyebrow-intro">Welcome</div>
+        <div id="introTitle" class="intro-title">
+          <span class="type-line" id="typeLine"></span>
+        </div>
+        <div id="introDesc" class="intro-sub">Computer Science student & Systems Development technician — I build games and systems using deep programming logic and Object-Oriented Programming.</div>
+
+        <div class="intro-actions" style="margin-top:16px">
+          <button class="btn" id="enterBtn">Enter Portfolio</button>
+          <button class="btn secondary" id="aboutBtn">Learn more</button>
+        </div>
+      </div>
+
+      <div class="intro-right" aria-hidden="true">
+        <img src="src/enzo.jpg" alt="Enzo portrait">
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN SITE -->
+  <div class="container" id="mainSite">
     <header class="hero fade-up">
       <div class="profile-pic">
         <img src="src/enzo.jpg" alt="Enzo profile" />
@@ -317,5 +477,90 @@
     </footer>
 
   </div>
+
+  <script>
+    // Intro typing + controls (same logic, unchanged)
+    (function(){
+      const intro = document.getElementById('intro');
+      const typeLine = document.getElementById('typeLine');
+      const skipBtn = document.getElementById('skipBtn');
+      const enterBtn = document.getElementById('enterBtn');
+      const aboutBtn = document.getElementById('aboutBtn');
+      const mainSite = document.getElementById('mainSite');
+
+      // Hide main interactions visually while intro is active
+      mainSite.classList.add('site-hidden');
+
+      // Text sequence to type
+      const lines = [
+        "Hi — I'm Enzo Mateus Vindilino.",
+        "Computer Science student • Systems Development Technician",
+        "I build games and systems with logic, design, and OOP."
+      ];
+
+      let curLine = 0;
+      let charIndex = 0;
+      let typingSpeed = 28; // ms per char
+      let pauseBetween = 800; // pause between lines
+
+      function typeNextChar(){
+        const line = lines[curLine];
+        if(!line) return finishIntro();
+        if(charIndex <= line.length){
+          // show substring with wrapping allowed
+          typeLine.textContent = line.slice(0, charIndex);
+          charIndex++;
+          setTimeout(typeNextChar, typingSpeed);
+        } else {
+          // finish this line, pause, then next line
+          curLine++;
+          charIndex = 0;
+          if(curLine < lines.length){
+            setTimeout(() => {
+              typeLine.textContent = ''; // clear before next line
+              setTimeout(typeNextChar, 200);
+            }, pauseBetween);
+          } else {
+            setTimeout(finishIntro, 900);
+          }
+        }
+      }
+
+      // Start typing after small delay
+      setTimeout(typeNextChar, 350);
+
+      function finishIntro(){
+        // animate overlay fade out
+        intro.style.transition = 'opacity .6s ease, transform .6s ease';
+        intro.style.opacity = '0';
+        intro.style.transform = 'scale(.98)';
+        // unblur main content
+        mainSite.classList.remove('site-hidden');
+        setTimeout(()=> intro.remove(), 650);
+      }
+
+      // skip/enter handlers
+      skipBtn.addEventListener('click', finishIntro);
+      enterBtn.addEventListener('click', finishIntro);
+
+      aboutBtn.addEventListener('click', ()=>{
+        // close intro and scroll to about section
+        finishIntro();
+        setTimeout(()=> {
+          const aboutEl = document.querySelector('.card');
+          if(aboutEl) aboutEl.scrollIntoView({behavior:'smooth', block:'start'});
+        }, 700);
+      });
+
+      // allow ESC to close
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') finishIntro();
+      });
+
+      // accessibility: focus on skip for keyboard users
+      skipBtn.addEventListener('focus', () => skipBtn.style.outline='2px solid rgba(78,161,255,0.4)');
+      skipBtn.addEventListener('blur', () => skipBtn.style.outline='none');
+    })();
+  </script>
 </body>
 </html>
