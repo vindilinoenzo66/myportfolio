@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enzo Vindilino — Portfolio</title>
+  <meta name="description" content="Portfolio of Enzo Vindilino — Computer Science student & developer" />
+
+  <style>
+    :root{
+      --bg:#0f0f10;
+      --card:#141416;
+      --muted:#bfc3c6;
+      --accent:#4ea1ff;
+      --glass: rgba(255,255,255,0.04);
+      --white:#ffffff;
+      --radius:14px;
+      --max-width:1100px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#0b0b0c 60%);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      display:flex;
+      justify-content:center;
+      padding:40px 20px;
+    }
+
+    .container{
+      width:100%;
+      max-width:var(--max-width);
+    }
+
+    /* Header / Hero */
+    .hero{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:20px;
+      align-items:center;
+      background:linear-gradient(180deg,var(--card), rgba(20,20,22,0.8));
+      padding:22px;
+      border-radius:var(--radius);
+      box-shadow:0 6px 30px rgba(0,0,0,0.6);
+      margin-bottom:26px;
+    }
+
+    .profile-pic{
+      width:120px;height:120px;border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,0.06);
+      flex:0 0 120px;background:linear-gradient(135deg,#1a1a1b,#111);
+    }
+    .profile-pic img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .hero h1{
+      margin:0;font-size:28px;color:var(--white);letter-spacing:0.2px;font-weight:700
+    }
+    .hero p.handle{margin:6px 0 0;color:var(--muted)}
+    .hero p.lead{margin-top:8px;color:var(--muted);max-width:760px}
+
+    /* Layout sections */
+    .grid{
+      display:grid;
+      grid-template-columns: 2fr 1fr;
+      gap:22px;
+      align-items:start;
+    }
+
+    /* Cards gerais */
+    .card{
+      background:var(--card);
+      padding:18px;
+      border-radius:12px;
+      transition:background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover{
+      background-color:#1b1b1d;
+      transform:translateY(-4px);
+    }
+
+    h2{color:var(--white);margin:0 0 12px;font-size:18px}
+
+    .about{
+      padding:6px 0 0;color:var(--muted)
+    }
+
+    /* Projects */
+    .projects{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+    }
+    .project{
+      background:var(--glass);
+      padding:12px;
+      border-radius:10px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .project:hover{
+      background:rgba(255,255,255,0.08);
+      transform:translateY(-5px);
+    }
+
+    /* === THUMB STYLE (option A) === */
+    .project .thumb{
+      width:100px;
+      height:70px;
+      border-radius:10px;
+      overflow:hidden;
+      box-shadow:0 4px 10px rgba(0,0,0,0.4);
+      flex-shrink:0;
+    }
+    .project .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition: transform 0.3s ease;
+    }
+    .project:hover .thumb img{
+      transform:scale(1.05);
+    }
+
+    .project h3{margin:0;color:var(--white);font-size:15px}
+    .project p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+    .tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+    .tag{font-size:12px;padding:6px 8px;background:rgba(255,255,255,0.03);border-radius:999px;color:var(--muted)}
+
+    /* Sidebar */
+    .sidebar .skills{display:grid;gap:10px}
+    .skill{display:flex;flex-direction:column}
+    .skill .label{font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
+    .bar{height:10px;background:rgba(255,255,255,0.06);border-radius:999px;margin-top:6px;overflow:hidden}
+    .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7ed0ff);border-radius:999px}
+
+    .education{display:flex;flex-direction:column;gap:10px}
+    .edu-item{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px}
+    .contact{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .contact a{color:var(--muted);text-decoration:none;padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:8px;transition:background-color 0.3s ease}
+    .contact a:hover{background:rgba(255,255,255,0.08)}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* Responsiveness */
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .projects{grid-template-columns:1fr}
+      .hero{grid-template-columns:96px 1fr}
+      body{padding:20px}
+    }
+
+    @media (max-width:420px){
+      .hero h1{font-size:20px}
+    }
+
+    /* small animations */
+    .fade-up{opacity:0;transform:translateY(8px);animation:fadeUp .6s ease forwards}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="hero fade-up">
+      <div class="profile-pic">
+        <img src="src/enzo.jpg" alt="Enzo profile" />
+      </div>
+      <div>
+        <h1>Enzo Vindilino.</h1>
+        <p class="handle">@vindilino_enzo</p>
+        <p class="lead">  Computer Science student at IFSP – São João da Boa Vista and Systems Development
+           graduate from ETEC Vasco Antônio Venchiarutti. Passionate about game development, algorithms, 
+           and building creative software.</p>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section>
+        <article class="card fade-up">
+          <h2>About Me</h2>
+          <div class="about">
+           <p>  Hello — I’m Enzo, a young developer focused on game programming and system development. 
+            I participate in extension projects like <strong>Algorithmópolis</strong>, <strong>Breakout</strong>, and <strong>BlueAlgorithm</strong>, 
+            and I have experience building games in C and Java. 
+            I’m also developing both simple and complex programs that involve deep programming logic, 
+            constantly learning everything about the languages covered in my Computer Science degree, 
+            while applying Object-Oriented Programming principles to improve structure, scalability, and efficiency in my projects.
+          </p>
+
+          </div>
+        </article>
+
+        <article class="card" style="margin-top:16px">
+          <h2>Projects</h2>
+          <div class="projects">
+
+            <div class="project">
+              <div class="thumb"><img src="src/algorithmopolis.jpg" alt="Algorithmópolis Project"></div>
+              <div>
+                <h3>Algorithmópolis</h3>
+                <p>Academic extension project centered on programming logic and algorithmic thinking.</p>
+                <div class="tags"><span class="tag">Algorithms</span><span class="tag">Education</span></div>
+              </div>
+            </div>
+
+            <div class="project">
+              <div class="thumb"><img src="src/bluealgorithm.jpg" alt="BlueAlgorithm Project"></div>
+              <div>
+                <h3>BlueAlgorithm</h3>
+                <p>Java project developed during an extension program. Focus on problem solving and structure.</p>
+                <div class="tags"><span class="tag">Java</span><span class="tag">OOP</span></div>
+              </div>
+            </div>
+
+            <div class="project">
+              <div class="thumb"><img src="src/breakout.jpg" alt="Breakout Game"></div>
+              <div>
+                <h3>BREAKOUT</h3>
+                <p>Classic-style breakout game programmed in C. Implemented core engine, collision, and rendering loop.</p>
+                <div class="tags"><span class="tag">C</span><span class="tag">Game Dev</span></div>
+              </div>
+            </div>
+
+            <div class="project">
+              <div class="thumb"><img src="src/clashgame.jpg" alt="Clash Royale Java Game"></div>
+              <div>
+                <h3>Clash Royale-like Java Game (WIP)</h3>
+                <p>Ongoing Java project inspired by Clash Royale mechanics — cards, strategy, and unit interactions.</p>
+                <div class="tags"><span class="tag">Java</span><span class="tag">Game Design</span><span class="tag">OOP</span></div>
+              </div>
+            </div>
+
+          </div>
+        </article>
+      </section>
+
+      <aside class="sidebar">
+        <div class="card fade-up">
+          <h2>Skills</h2>
+          <div class="skills">
+            <div class="skill">
+              <div class="label"><span>C</span><strong>80%</strong></div>
+              <div class="bar"><span style="width:80%"></span></div>
+            </div>
+            <div class="skill">
+              <div class="label"><span>Java</span><strong>70%</strong></div>
+              <div class="bar"><span style="width:70%"></span></div>
+            </div>
+            <div class="skill">
+              <div class="label"><span>HTML / CSS / JS</span><strong>70%</strong></div>
+              <div class="bar"><span style="width:70%"></span></div>
+            </div>
+            <div class="skill">
+              <div class="label"><span>Python</span><strong>60%</strong></div>
+              <div class="bar"><span style="width:60%"></span></div>
+            </div>
+            <div class="skill">
+              <div class="label"><span>Photoshop / Design</span><strong>60%</strong></div>
+              <div class="bar"><span style="width:60%"></span></div>
+            </div>
+            <div class="skill">
+              <div class="label"><span>SQL / PHP</span><strong>55%</strong></div>
+              <div class="bar"><span style="width:55%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h2>Education</h2>
+              <div class="education">
+                <div class="edu-item">
+                  <strong>
+                    <a href="https://www.sbv.ifsp.edu.br/bcc" target="_blank" style="color:inherit; text-decoration:none;">
+                      IFSP — São João da Boa Vista
+                    </a>
+                  </strong>
+                  <div style="font-size:13px;color:var(--muted)">
+                    Computer Science (Student)
+                  </div>
+                </div>
+
+                <div class="edu-item">
+                  <strong>
+                    <a href="https://www.etecvav.com.br/" target="_blank" style="color:inherit; text-decoration:none;">
+                      ETEC Vasco Antônio Venchiarutti — Jundiaí
+                    </a>
+                  </strong>
+                  <div style="font-size:13px;color:var(--muted)">
+                    Technical Degree — Systems Development
+                  </div>
+                </div>
+              </div>
+
+
+        <div class="card" style="margin-top:16px">
+          <h2>Contact</h2>
+          <div class="contact">
+            <a href="https://github.com/vindilinoenzo66">GitHub</a>
+            <a href="https://www.linkedin.com/in/enzo-vindilino/">LinkedIn</a>
+            <a href="https://www.instagram.com/vindilino_enzo/">Instagram</a>
+            <a href="mailto:enzovindilino@gmail.com">Email</a>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div>© <strong>Enzo Vindilino</strong> — Student & Developer</div><br>
+    </footer>
+
+  </div>
+</body>
+</html>
