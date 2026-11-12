@@ -1,566 +1,177 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Enzo Vindilino — Portfolio</title>
-  <meta name="description" content="Portfolio of Enzo Vindilino — Computer Science student & developer" />
-
-  <style>
-    :root{
-      --bg:#0f0f10;
-      --card:#141416;
-      --muted:#bfc3c6;
-      --accent:#4ea1ff;
-      --glass: rgba(255,255,255,0.04);
-      --white:#ffffff;
-      --radius:14px;
-      --max-width:1100px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:linear-gradient(180deg,var(--bg),#0b0b0c 60%);
-      color:var(--muted);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
-      display:flex;
-      justify-content:center;
-      padding:40px 20px;
-      overflow-x: hidden;
-    }
-
-    .container{
-      width:100%;
-      max-width:var(--max-width);
-    }
-
-    /* ---------- INTRO OVERLAY (fixed) ---------- */
-    .intro-overlay{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: radial-gradient( circle at 10% 10%, rgba(78,161,255,0.14), transparent 12%),
-                  linear-gradient(180deg, rgba(4,6,8,0.96), rgba(4,6,8,0.9));
-      z-index:9999;
-      color:var(--white);
-      flex-direction:column;
-      padding:30px;
-    }
-
-    /* improved intro card: overflow hidden and stacking */
-    .intro-card{
-      width:min(1000px,92%);
-      max-width:1000px;
-      border-radius:20px;
-      padding:28px 32px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      box-shadow: 0 20px 60px rgba(2,6,23,0.7);
-      display:flex;
-      gap:22px;
-      align-items:center;
-      overflow:hidden;        /* garante que nada vaze para fora do cartão */
-      position:relative;
-    }
-
-    .intro-left{
-      flex:1;
-      min-width:0;
-      position:relative;
-      z-index:2;              /* texto acima da imagem */
-    }
-
-    /* image now behind text, can't capture clicks */
-    .intro-right{
-      width:240px;
-      height:140px;
-      border-radius:12px;
-      overflow:hidden;
-      background:linear-gradient(135deg, rgba(78,161,255,0.14), rgba(125,224,255,0.06));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      transform: rotate(-6deg);
-      box-shadow: 0 12px 40px rgba(78,161,255,0.08);
-      position:relative;
-      z-index:1;              /* imagem atrás do texto */
-      pointer-events: none;   /* evita que a imagem capture cliques */
-      opacity: 0.98;
-    }
-
-    .intro-right img{
-      width:110%;
-      height:110%;
-      object-fit:cover;
-      transform:rotate(6deg) translateY(2px);
-      display:block;
-      filter: drop-shadow(0 6px 20px rgba(2,6,23,0.45));
-    }
-
-    .eyebrow-intro{font-size:13px;color:var(--accent);font-weight:700;letter-spacing:1px;}
-    .intro-title{ /* allows wrapping and prevents overflow */
-      font-size:34px;
-      color:var(--white);
-      font-weight:800;
-      margin-top:8px;
-      line-height:1.05;
-      overflow-wrap:break-word;
-      word-break:break-word;
-      white-space:normal;
-      max-width:100%;
-      display:block;
-    }
-    .intro-sub{color:var(--muted);margin-top:10px;max-width:60ch}
-
-    /* typing/reveal effect (wraps now) */
-    .type-line{
-      display:inline-block;
-      white-space:normal;            /* permite quebra automática */
-      overflow-wrap:break-word;
-      word-break:break-word;
-      vertical-align:middle;
-      border-right:2px solid rgba(255,255,255,0.2);
-      padding-right:6px;
-      animation: caret 900ms steps(1) infinite;
-    }
-    @keyframes caret {50%{border-color:transparent}}
-
-    .intro-actions{margin-top:18px;display:flex;gap:12px}
-    .btn{
-      background:var(--accent);
-      color:#061126;
-      padding:10px 14px;
-      border-radius:10px;
-      text-decoration:none;
-      font-weight:700;
-      cursor:pointer;
-      border:none;
-    }
-    .btn.secondary{
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(255,255,255,0.06);
-    }
-    .skip{
-      position:absolute;
-      top:10px; right:12px;
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(255,255,255,0.04);
-      padding:6px 8px;border-radius:8px;cursor:pointer;
-      z-index:3;
-    }
-
-    /* responsive tweak for intro */
-    @media (max-width:900px){
-      .intro-card{flex-direction:column;gap:18px;padding:20px}
-      .intro-right{width:100%;height:160px;transform:none}
-      .intro-right img{transform:none; width:100%; height:100%}
-    }
-    @media (max-width:520px){
-      .intro-title{font-size:20px}
-      .intro-sub{font-size:14px}
-      .intro-card{padding:18px}
-      .intro-right{height:120px}
-    }
-
-    /* ---------- MAIN SITE (kept and slightly adjusted) ---------- */
-    .hero{
-      display:grid;
-      grid-template-columns: 120px 1fr;
-      gap:20px;
-      align-items:center;
-      background:linear-gradient(180deg,var(--card), rgba(20,20,22,0.8));
-      padding:22px;
-      border-radius:var(--radius);
-      box-shadow:0 6px 30px rgba(0,0,0,0.6);
-      margin-bottom:26px;
-    }
-
-    .profile-pic{
-      width:120px;height:120px;border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,0.06);
-      flex:0 0 120px;background:linear-gradient(135deg,#1a1a1b,#111);
-    }
-    .profile-pic img{width:100%;height:100%;object-fit:cover;display:block}
-
-    .hero h1{
-      margin:0;font-size:28px;color:var(--white);letter-spacing:0.2px;font-weight:700
-    }
-    .hero p.handle{margin:6px 0 0;color:var(--muted)}
-    .hero p.lead{margin-top:8px;color:var(--muted);max-width:760px}
-
-    .grid{
-      display:grid;
-      grid-template-columns: 2fr 1fr;
-      gap:22px;
-      align-items:start;
-    }
-
-    .card{
-      background:var(--card);
-      padding:18px;
-      border-radius:12px;
-      transition:background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .card:hover{
-      background-color:#1b1b1d;
-      transform:translateY(-4px);
-    }
-
-    h2{color:var(--white);margin:0 0 12px;font-size:18px}
-
-    .about{
-      padding:6px 0 0;color:var(--muted)
-    }
-
-    .projects{
-      display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
-    }
-    .project{
-      background:var(--glass);
-      padding:12px;
-      border-radius:10px;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .project:hover{
-      background:rgba(255,255,255,0.08);
-      transform:translateY(-5px);
-    }
-
-    .project .thumb{
-      width:100px;
-      height:70px;
-      border-radius:10px;
-      overflow:hidden;
-      box-shadow:0 4px 10px rgba(0,0,0,0.4);
-      flex-shrink:0;
-    }
-    .project .thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      transition: transform 0.3s ease;
-    }
-    .project:hover .thumb img{
-      transform:scale(1.05);
-    }
-
-    .project h3{margin:0;color:var(--white);font-size:15px}
-    .project p{margin:6px 0 0;font-size:13px;color:var(--muted)}
-    .tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
-    .tag{font-size:12px;padding:6px 8px;background:rgba(255,255,255,0.03);border-radius:999px;color:var(--muted)}
-
-    .sidebar .skills{display:grid;gap:10px}
-    .skill{display:flex;flex-direction:column}
-    .skill .label{font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
-    .bar{height:10px;background:rgba(255,255,255,0.06);border-radius:999px;margin-top:6px;overflow:hidden}
-    .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7ed0ff);border-radius:999px}
-
-    .education{display:flex;flex-direction:column;gap:10px}
-    .edu-item{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px}
-    .contact{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-    .contact a{color:var(--muted);text-decoration:none;padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:8px;transition:background-color 0.3s ease}
-    .contact a:hover{background:rgba(255,255,255,0.08)}
-
-    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
-
-    /* Responsiveness for main site */
-    @media (max-width:900px){
-      .grid{grid-template-columns:1fr}
-      .projects{grid-template-columns:1fr}
-      .hero{grid-template-columns:96px 1fr}
-      body{padding:20px}
-    }
-
-    @media (max-width:420px){
-      .hero h1{font-size:20px}
-    }
-
-    /* small animations */
-    .fade-up{opacity:0;transform:translateY(8px);animation:fadeUp .6s ease forwards}
-    @keyframes fadeUp{to{opacity:1;transform:none}}
-
-    /* subtle appear for main after intro hide */
-    .site-hidden{
-      filter: blur(4px) brightness(.6);
-      pointer-events: none;
-      user-select: none;
-      transform: scale(.995);
-      transition: all .6s ease;
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfólio de Enzo Mateus Vindilino, estudante de Ciência da Computação e técnico em Desenvolvimento de Sistemas. Aplicativos, jogos e projetos em andamento.">
+  <meta name="theme-color" content="#10141c">
+  <title>Enzo Vindilino | Portfólio</title>
+  <link rel="icon" href="src/enzo.jpg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- INTRO OVERLAY -->
-  <div class="intro-overlay" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
-    <button class="skip" id="skipBtn" aria-label="Skip intro">Skip ✦</button>
-
-    <div class="intro-card" role="document" aria-describedby="introDesc">
-      <div class="intro-left">
-        <div class="eyebrow-intro">Welcome</div>
-        <div id="introTitle" class="intro-title">
-          <span class="type-line" id="typeLine"></span>
-        </div>
-        <div id="introDesc" class="intro-sub">Computer Science student & Systems Development technician — I build games and systems using deep programming logic and Object-Oriented Programming.</div>
-
-        <div class="intro-actions" style="margin-top:16px">
-          <button class="btn" id="enterBtn">Enter Portfolio</button>
-          <button class="btn secondary" id="aboutBtn">Learn more</button>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="#" aria-label="Enzo Vindilino, início"><span class="monogram">EV</span><span>Enzo Vindilino</span></a>
+      <nav aria-label="Navegação principal">
+        <a href="#projetos">Projetos</a>
+        <a href="#sobre">Sobre</a>
+        <a class="nav-contact" href="#contato">Contato <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main id="conteudo">
+    <section class="wrap hero" aria-labelledby="nome">
+      <div class="hero-copy">
+        <p class="kicker"><span></span> Desenvolvedor de software</p>
+        <h1 id="nome">Enzo<br>Vindilino<span class="accent">.</span></h1>
+        <p class="intro">Estudante de Ciência da Computação no IFSP e técnico em Desenvolvimento de Sistemas. Desenvolvo aplicativos, jogos e sistemas e uso o Codex para implementar e testar parte desses projetos.</p>
+        <div class="actions">
+          <a class="button primary" href="#projetos">Explorar projetos <span aria-hidden="true">↓</span></a>
+          <a class="button secondary" href="https://github.com/vindilinoenzo66">GitHub <span aria-hidden="true">↗</span></a>
         </div>
       </div>
+      <figure class="portrait">
+        <img src="src/enzo.jpg" alt="Retrato de Enzo Vindilino" fetchpriority="high">
+        <figcaption><span>São João da Boa Vista, SP</span><span>@vindilino_enzo</span></figcaption>
+      </figure>
+    </section>
 
-      <div class="intro-right" aria-hidden="true">
-        <img src="src/enzo.jpg" alt="Enzo portrait">
+    <section class="wrap section" id="projetos" aria-labelledby="projetos-titulo">
+      <header class="section-heading">
+        <h2 id="projetos-titulo">Projetos em destaque<span class="accent">.</span></h2>
+        <p>Aplicativos publicados e projetos em desenvolvimento.</p>
+      </header>
+      <div class="feature-grid">
+        <article class="feature">
+          <a class="app-visual pace" href="media/pace.jpg" aria-label="Ampliar captura do PACE 4:00">
+            <div class="visual-label" aria-hidden="true">PACE<span>4:00</span><small>Treino de corrida</small></div>
+            <img src="media/pace.jpg" alt="Tela inicial do PACE 4:00 com meta de ritmo e resumo de treino" loading="lazy">
+          </a>
+          <div class="feature-body">
+            <p class="eyebrow">Aplicativo web · Publicado</p>
+            <h3>PACE 4:00</h3>
+            <p>Criei um app de corrida para acompanhar minha evolução rumo ao ritmo de 4 min/km. Ele reúne plano de treino, calendário e histórico de corridas. Aceita calendários do Runna e arquivos de atividades exportados do Strava.</p>
+            <div class="tags"><span>PWA</span><span>Next.js</span><span>Codex</span></div>
+            <a class="text-link" href="https://pace-400-stronghealth.vercel.app/">Abrir aplicativo <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+        <article class="feature">
+          <a class="app-visual health" href="media/stronghealth.jpg" aria-label="Ampliar captura do StrongHealth">
+            <div class="visual-label" aria-hidden="true">Strong<br>Health<small>Academia digital</small></div>
+            <img src="media/stronghealth.jpg" alt="Prévia da integração do PACE 4:00 no StrongHealth, com dados de demonstração" loading="lazy">
+          </a>
+          <div class="feature-body">
+            <p class="eyebrow">Projeto acadêmico · Publicado</p>
+            <h3>StrongHealth</h3>
+            <p>Plataforma acadêmica que começou como um e-commerce de suplementos. Trabalhei na integração do PACE 4:00 à área de atividades, com plano individual de corrida, calendário e vínculo com treinos de GPS.</p>
+            <div class="tags"><span>Aplicação web</span><span>Supabase</span><span>Codex</span></div>
+            <div class="link-group"><a class="text-link" href="https://stronghealth.vercel.app/">Visitar site <span aria-hidden="true">↗</span></a><a class="text-link" href="https://github.com/vindilinoenzo66/stronghealth">GitHub <span aria-hidden="true">↗</span></a></div>
+          </div>
+        </article>
+      </div>
+      <div class="case-list">
+        <article class="case">
+          <a class="case-image plus" href="media/plus-tech.webp" aria-label="Ampliar identidade visual da Plus Tech"><img src="media/plus-tech.webp" alt="Versões clara e escura da identidade visual da Plus Tech" loading="lazy"></a>
+          <div class="case-copy">
+            <p class="eyebrow">Empreendedorismo · Em desenvolvimento</p>
+            <h3>Plus Tech</h3>
+            <p>Iniciativa de tecnologia para comércios locais. Desenvolvi com o Codex a identidade visual e a especificação de um sistema de reservas de quadras, com agenda, bloqueio de horários e pagamento online. A proposta também inclui placas NFC para acesso rápido aos canais do comércio.</p>
+            <a class="text-link" href="materiais/plus-tech-reservas.pdf">Ler especificação de reservas <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+        <article class="case car" id="gol-g5">
+          <a class="case-image" href="media/gol-g5.webp" aria-label="Ampliar foto do motor do Gol G5"><img src="media/gol-g5.webp" alt="Foto do cofre do motor do Volkswagen Gol G5" loading="lazy"></a>
+          <div class="case-copy">
+            <p class="eyebrow">Projeto pessoal · Em andamento</p>
+            <h3>Projeto Gol G5</h3>
+            <p>Estou planejando a preparação do meu Volkswagen Gol G5 1.0 EA111 8V. O projeto começou pelo levantamento do conjunto atual e pelo estudo de alternativas de admissão, escape e gerenciamento do motor.</p>
+            <dl class="car-notes">
+              <div><dt>Base</dt><dd>Gol G5 · EA111 1.0 8V</dd></div>
+              <div><dt>Em estudo</dt><dd>Preparação aspirada e turbo</dd></div>
+            </dl>
+            <a class="text-link" href="media/gol-g5.webp">Ver foto do motor <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap section catalog" aria-labelledby="catalogo-titulo">
+      <header class="section-heading">
+        <h2 id="catalogo-titulo">Jogos, algoritmos e sistemas<span class="accent">.</span></h2>
+        <p>Projetos acadêmicos, de extensão e experimentos de programação.</p>
+      </header>
+      <div class="catalog-grid">
+        <article class="project">
+          <div class="project-cover"><img src="src/breakout.jpg" alt="Imagem do projeto BreakOut" loading="lazy"></div>
+          <div class="project-copy"><p class="eyebrow">C · Desenvolvimento de jogos</p><h3>BreakOut</h3><p>Recriação do clássico jogo de quebrar blocos em C. Implementei o núcleo do jogo, as colisões e o ciclo de renderização.</p><a class="text-link" href="https://github.com/vindilinoenzo66/BreakOut">Ver código <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="project">
+          <div class="project-cover snake" aria-hidden="true"><span>●━━┓<br>　　┗━</span></div>
+          <div class="project-copy"><p class="eyebrow">Java · JSGE</p><h3>SnakeGame</h3><p>Jogo da cobrinha para estudar estruturas de dados. Tem oito modos e permite combinar regras que usam filas e pilhas.</p><a class="text-link" href="https://github.com/vindilinoenzo66/SnakeGame-EstruturaDeDados">Ver código <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="project">
+          <div class="project-cover trees" aria-hidden="true"><span>BST / AVL / VP</span></div>
+          <div class="project-copy"><p class="eyebrow">Java · JSGE · Codex</p><h3>Simuladores de árvores</h3><p>Três simuladores gráficos para visualizar inserções e remoções em uma árvore binária de busca, uma AVL e uma árvore rubro-negra.</p><a class="text-link" href="materiais/simuladores-de-arvores.zip" download>Baixar projeto <span aria-hidden="true">↓</span></a></div>
+        </article>
+        <article class="project">
+          <div class="project-cover"><img src="src/algorithmopolis.jpg" alt="Imagem do projeto Algorithmópolis" loading="lazy"></div>
+          <div class="project-copy"><p class="eyebrow">Extensão acadêmica</p><h3>Algorithmópolis</h3><p>Projeto de extensão voltado à lógica de programação e ao raciocínio algorítmico.</p></div>
+        </article>
+        <article class="project">
+          <div class="project-cover"><img src="src/bluealgorithm.jpg" alt="Imagem do projeto BlueAlgorithm" loading="lazy"></div>
+          <div class="project-copy"><p class="eyebrow">Java · Orientação a objetos</p><h3>BlueAlgorithm</h3><p>Projeto de extensão que aplica Java e orientação a objetos à resolução de problemas de lógica.</p></div>
+        </article>
+        <article class="project">
+          <div class="project-cover"><img src="src/clashgame.jpg" alt="Imagem de referência do jogo de estratégia" loading="lazy"></div>
+          <div class="project-copy"><p class="eyebrow">Java · Em andamento</p><h3>Jogo de estratégia em Java</h3><p>Experimento inspirado em Clash Royale para estudar cartas, estratégia e interação entre unidades.</p></div>
+        </article>
+        <article class="project project-uml">
+          <div class="project-copy"><p class="eyebrow">UML · Codex</p><h3>Diagramas de estados</h3><p>Cinco diagramas editáveis no WhiteStarUML para exercícios de locadora, venda de passagens e clínica veterinária.</p><a class="text-link" href="materiais/diagramas-de-estados.uml" download>Baixar arquivo UML <span aria-hidden="true">↓</span></a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap section about" id="sobre" aria-labelledby="sobre-titulo">
+      <div>
+        <h2 id="sobre-titulo">Sobre mim<span class="accent">.</span></h2>
+        <p>Sou Enzo Mateus Vindilino. Comecei pelo desenvolvimento de jogos em C e Java e sigo explorando como a lógica de programação, os algoritmos e a orientação a objetos ajudam a criar software mais organizado, eficiente e fácil de evoluir.</p>
+        <h3>Habilidades</h3>
+        <div class="tags"><span>C</span><span>Java</span><span>HTML, CSS e JavaScript</span><span>Python</span><span>SQL e PHP</span><span>Photoshop e design</span></div>
+        <details class="skill-details">
+          <summary>Autoavaliação do portfólio original</summary>
+          <dl>
+            <div><dt>C</dt><dd>80%</dd></div>
+            <div><dt>Java</dt><dd>70%</dd></div>
+            <div><dt>HTML, CSS e JavaScript</dt><dd>70%</dd></div>
+            <div><dt>Python</dt><dd>60%</dd></div>
+            <div><dt>Photoshop e design</dt><dd>60%</dd></div>
+            <div><dt>SQL e PHP</dt><dd>55%</dd></div>
+          </dl>
+        </details>
+      </div>
+      <div class="education">
+        <h3>Formação</h3>
+        <a href="https://www.sbv.ifsp.edu.br/bcc"><strong>Ciência da Computação</strong><span>IFSP · São João da Boa Vista · Em curso</span><span class="arrow" aria-hidden="true">↗</span></a>
+        <a href="https://www.etecvav.com.br/"><strong>Técnico em Desenvolvimento de Sistemas</strong><span>ETEC Vasco Antônio Venchiarutti · Jundiaí · Concluído</span><span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contato">
+    <div class="wrap footer-inner">
+      <div><h2>Vamos conversar<span class="accent">?</span></h2><a class="email" href="mailto:enzovindilino@gmail.com">enzovindilino@gmail.com</a></div>
+      <div class="socials" aria-label="Redes sociais">
+        <a href="https://github.com/vindilinoenzo66">GitHub <span aria-hidden="true">↗</span></a>
+        <a href="https://www.linkedin.com/in/enzo-vindilino/">LinkedIn <span aria-hidden="true">↗</span></a>
+        <a href="https://www.instagram.com/vindilino_enzo/">Instagram <span aria-hidden="true">↗</span></a>
       </div>
     </div>
-  </div>
-
-  <!-- MAIN SITE -->
-  <div class="container" id="mainSite">
-    <header class="hero fade-up">
-      <div class="profile-pic">
-        <img src="src/enzo.jpg" alt="Enzo profile" />
-      </div>
-      <div>
-        <h1>Enzo Vindilino.</h1>
-        <p class="handle">@vindilino_enzo</p>
-        <p class="lead">  Computer Science student at IFSP – São João da Boa Vista and Systems Development
-           graduate from ETEC Vasco Antônio Venchiarutti. Passionate about game development, algorithms, 
-           and building creative software.</p>
-      </div>
-    </header>
-
-    <main class="grid">
-      <section>
-        <article class="card fade-up">
-          <h2>About Me</h2>
-          <div class="about">
-           <p>  Hello — I’m Enzo, a young developer focused on game programming and system development. 
-            I participate in extension projects like <strong>Algorithmópolis</strong>, <strong>Breakout</strong>, and <strong>BlueAlgorithm</strong>, 
-            and I have experience building games in C and Java. 
-            I’m also developing both simple and complex programs that involve deep programming logic, 
-            constantly learning everything about the languages covered in my Computer Science degree, 
-            while applying Object-Oriented Programming principles to improve structure, scalability, and efficiency in my projects.
-          </p>
-
-          </div>
-        </article>
-
-        <article class="card" style="margin-top:16px">
-          <h2>Projects</h2>
-          <div class="projects">
-
-            <div class="project">
-              <div class="thumb"><img src="src/algorithmopolis.jpg" alt="Algorithmópolis Project"></div>
-              <div>
-                <h3>Algorithmópolis</h3>
-                <p>Academic extension project centered on programming logic and algorithmic thinking.</p>
-                <div class="tags"><span class="tag">Algorithms</span><span class="tag">Education</span></div>
-              </div>
-            </div>
-
-            <div class="project">
-              <div class="thumb"><img src="src/bluealgorithm.jpg" alt="BlueAlgorithm Project"></div>
-              <div>
-                <h3>BlueAlgorithm</h3>
-                <p>Java project developed during an extension program. Focus on problem solving and structure.</p>
-                <div class="tags"><span class="tag">Java</span><span class="tag">OOP</span></div>
-              </div>
-            </div>
-
-            <div class="project">
-              <div class="thumb"><img src="src/breakout.jpg" alt="Breakout Game"></div>
-              <div>
-                <h3>BREAKOUT</h3>
-                <p>Classic-style breakout game programmed in C. Implemented core engine, collision, and rendering loop.</p>
-                <div class="tags"><span class="tag">C</span><span class="tag">Game Dev</span></div>
-              </div>
-            </div>
-
-            <div class="project">
-              <div class="thumb"><img src="src/clashgame.jpg" alt="Clash Royale Java Game"></div>
-              <div>
-                <h3>Clash Royale-like Java Game (WIP)</h3>
-                <p>Ongoing Java project inspired by Clash Royale mechanics — cards, strategy, and unit interactions.</p>
-                <div class="tags"><span class="tag">Java</span><span class="tag">Game Design</span><span class="tag">OOP</span></div>
-              </div>
-            </div>
-
-          </div>
-        </article>
-      </section>
-
-      <aside class="sidebar">
-        <div class="card fade-up">
-          <h2>Skills</h2>
-          <div class="skills">
-            <div class="skill">
-              <div class="label"><span>C</span><strong>80%</strong></div>
-              <div class="bar"><span style="width:80%"></span></div>
-            </div>
-            <div class="skill">
-              <div class="label"><span>Java</span><strong>70%</strong></div>
-              <div class="bar"><span style="width:70%"></span></div>
-            </div>
-            <div class="skill">
-              <div class="label"><span>HTML / CSS / JS</span><strong>70%</strong></div>
-              <div class="bar"><span style="width:70%"></span></div>
-            </div>
-            <div class="skill">
-              <div class="label"><span>Python</span><strong>60%</strong></div>
-              <div class="bar"><span style="width:60%"></span></div>
-            </div>
-            <div class="skill">
-              <div class="label"><span>Photoshop / Design</span><strong>60%</strong></div>
-              <div class="bar"><span style="width:60%"></span></div>
-            </div>
-            <div class="skill">
-              <div class="label"><span>SQL / PHP</span><strong>55%</strong></div>
-              <div class="bar"><span style="width:55%"></span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:16px">
-          <h2>Education</h2>
-              <div class="education">
-                <div class="edu-item">
-                  <strong>
-                    <a href="https://www.sbv.ifsp.edu.br/bcc" target="_blank" style="color:inherit; text-decoration:none;">
-                      IFSP — São João da Boa Vista
-                    </a>
-                  </strong>
-                  <div style="font-size:13px;color:var(--muted)">
-                    Computer Science (Student)
-                  </div>
-                </div>
-
-                <div class="edu-item">
-                  <strong>
-                    <a href="https://www.etecvav.com.br/" target="_blank" style="color:inherit; text-decoration:none;">
-                      ETEC Vasco Antônio Venchiarutti — Jundiaí
-                    </a>
-                  </strong>
-                  <div style="font-size:13px;color:var(--muted)">
-                    Technical Degree — Systems Development
-                  </div>
-                </div>
-              </div>
-
-
-        <div class="card" style="margin-top:16px">
-          <h2>Contact</h2>
-          <div class="contact">
-            <a href="https://github.com/vindilinoenzo66">GitHub</a>
-            <a href="https://www.linkedin.com/in/enzo-vindilino/">LinkedIn</a>
-            <a href="https://www.instagram.com/vindilino_enzo/">Instagram</a>
-            <a href="mailto:enzovindilino@gmail.com">Email</a>
-          </div>
-        </div>
-      </aside>
-    </main>
-
-    <footer>
-      <div>© <strong>Enzo Vindilino</strong> — Student & Developer</div><br>
-    </footer>
-
-  </div>
-
-  <script>
-    // Intro typing + controls (same logic, unchanged)
-    (function(){
-      const intro = document.getElementById('intro');
-      const typeLine = document.getElementById('typeLine');
-      const skipBtn = document.getElementById('skipBtn');
-      const enterBtn = document.getElementById('enterBtn');
-      const aboutBtn = document.getElementById('aboutBtn');
-      const mainSite = document.getElementById('mainSite');
-
-      // Hide main interactions visually while intro is active
-      mainSite.classList.add('site-hidden');
-
-      // Text sequence to type
-      const lines = [
-        "Hi — I'm Enzo Mateus Vindilino.",
-        "Computer Science student • Systems Development Technician",
-        "I build games and systems with logic, design, and OOP."
-      ];
-
-      let curLine = 0;
-      let charIndex = 0;
-      let typingSpeed = 28; // ms per char
-      let pauseBetween = 800; // pause between lines
-
-      function typeNextChar(){
-        const line = lines[curLine];
-        if(!line) return finishIntro();
-        if(charIndex <= line.length){
-          // show substring with wrapping allowed
-          typeLine.textContent = line.slice(0, charIndex);
-          charIndex++;
-          setTimeout(typeNextChar, typingSpeed);
-        } else {
-          // finish this line, pause, then next line
-          curLine++;
-          charIndex = 0;
-          if(curLine < lines.length){
-            setTimeout(() => {
-              typeLine.textContent = ''; // clear before next line
-              setTimeout(typeNextChar, 200);
-            }, pauseBetween);
-          } else {
-            setTimeout(finishIntro, 900);
-          }
-        }
-      }
-
-      // Start typing after small delay
-      setTimeout(typeNextChar, 350);
-
-      function finishIntro(){
-        // animate overlay fade out
-        intro.style.transition = 'opacity .6s ease, transform .6s ease';
-        intro.style.opacity = '0';
-        intro.style.transform = 'scale(.98)';
-        // unblur main content
-        mainSite.classList.remove('site-hidden');
-        setTimeout(()=> intro.remove(), 650);
-      }
-
-      // skip/enter handlers
-      skipBtn.addEventListener('click', finishIntro);
-      enterBtn.addEventListener('click', finishIntro);
-
-      aboutBtn.addEventListener('click', ()=>{
-        // close intro and scroll to about section
-        finishIntro();
-        setTimeout(()=> {
-          const aboutEl = document.querySelector('.card');
-          if(aboutEl) aboutEl.scrollIntoView({behavior:'smooth', block:'start'});
-        }, 700);
-      });
-
-      // allow ESC to close
-      document.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape') finishIntro();
-      });
-
-      // accessibility: focus on skip for keyboard users
-      skipBtn.addEventListener('focus', () => skipBtn.style.outline='2px solid rgba(78,161,255,0.4)');
-      skipBtn.addEventListener('blur', () => skipBtn.style.outline='none');
-    })();
-  </script>
+    <div class="wrap footer-bottom"><span>© Enzo Vindilino</span><a href="#">Voltar ao topo ↑</a></div>
+  </footer>
 </body>
 </html>

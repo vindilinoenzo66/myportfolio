@@ -1,36 +1,19 @@
-# 🌐 Personal Portfolio — Enzo Mateus
+# Portfólio de Enzo Vindilino
 
-This is my **personal portfolio website**, built to showcase my academic background, technical skills, and software development projects.  
-It was designed to reflect my passion for **programming**, **game development**, and **creative system design**.
+Portfólio em português de Enzo Mateus Vindilino, estudante de Ciência da Computação no IFSP e técnico em Desenvolvimento de Sistemas pela ETEC Vasco Antônio Venchiarutti.
 
----
+O site apresenta aplicativos publicados, jogos, projetos acadêmicos, a iniciativa Plus Tech e o projeto pessoal do Gol G5. Os arquivos para consulta ou download estão em `materiais/`. As imagens dos projetos originais permanecem em `src/`.
 
-## 📖 About the Project
+## Prévia local
 
-This portfolio was fully developed using **HTML5** and **CSS3**, featuring a clean, dark-themed design with blue highlights and hover animations.  
-It includes sections for:
-- 🧠 **About Me** — brief introduction and background  
-- 🎓 **Education** — academic institutions with links  
-- 💻 **Skills** — technical proficiencies with progress bars  
-- 🕹️ **Projects** — portfolio of completed and ongoing works  
-- ✉️ **Contact** — quick way to reach out
+O site usa HTML e CSS e dispensa compilação. Na raiz do repositório, execute:
 
----
+```sh
+python -m http.server 8000
+```
 
-## 🧩 Featured Projects
+Abra http://localhost:8000 no navegador.
 
-- **Algorithmópolis** — Academic project focused on programming logic and algorithms.  
-- **BlueAlgorithm** — Java project applying OOP principles to solve algorithmic problems.  
-- **BREAKOUT** — Game built in C, implementing physics and rendering loops.  
-- **Clash Royale-like Java Game (WIP)** — Strategic Java-based game inspired by Clash Royale mechanics.
+## Publicação
 
----
-
-## 🛠️ Technologies Used
-
-- **HTML5**
-- **CSS3**
-- **JAVA**
-- **C**
-- **Responsive Design Principles**
-- **Git & GitHub** *(for version control and hosting)*
+O projeto está hospedado no [Vercel](https://myportfolio-seven-puce-46.vercel.app/).
