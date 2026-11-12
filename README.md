@@ -16,4 +16,4 @@ Abra http://localhost:8000 no navegador.
 
 ## Publicação
 
-O projeto está hospedado no [Vercel](https://myportfolio-seven-puce-46.vercel.app/).
+O projeto está hospedado no [Vercel](https://vindilinoenzo.vercel.app/).
