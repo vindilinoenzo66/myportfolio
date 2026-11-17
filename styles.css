@@ -87,6 +87,12 @@ h1 { font-size: clamp(4.3rem, 10vw, 9.35rem); line-height: .85; letter-spacing: 
 .car-notes div { display: grid; grid-template-columns: 86px 1fr; align-items: baseline; gap: 7px; font-size: .86rem; }
 .car-notes dt { color: var(--muted); }
 .car-notes dd { margin: 0; font-weight: 600; }
+.car-gallery { grid-column: 1 / -1; padding: 15px clamp(17px, 3vw, 31px); border-top: 1px solid var(--rule); }
+.car-gallery summary { cursor: pointer; color: var(--accent); font-weight: 700; }
+.car-gallery ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; list-style: none; padding: 0; margin: 15px 0 2px; }
+.car-gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 7px; }
+.car-gallery a { display: block; border-radius: 7px; }
+.car-gallery a:hover img { opacity: .88; }
 .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .project-cover { height: 136px; background: #202b3c; overflow: hidden; }
 .project-cover img { height: 100%; width: 100%; object-fit: cover; }
@@ -96,10 +102,6 @@ h1 { font-size: clamp(4.3rem, 10vw, 9.35rem); line-height: .85; letter-spacing: 
 .project-copy { padding: 19px 20px; }
 .project-copy p { font-size: .91rem; }
 .project-copy .eyebrow { font-size: .65rem; }
-.project-uml { grid-column: 1 / -1; }
-.project-uml .project-copy { display: grid; grid-template-columns: minmax(190px, 1fr) minmax(230px, 2fr) auto; align-items: center; gap: 6px 18px; }
-.project-uml .eyebrow { grid-column: 1 / -1; margin: 0; }
-.project-uml .project-copy > p:not(.eyebrow) { margin: 0; }
 .about { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 7vw, 95px); }
 .about h3 { margin-bottom: 13px; font-size: 1.28rem; }
 .about > div:first-child > p { margin: 17px 0 22px; }
@@ -126,9 +128,6 @@ footer { border-top: 1px solid var(--rule); background: #171f2d; }
 @media (max-width: 900px) {
   .wrap { width: calc(100% - 48px); }
   .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .project-uml .project-copy { display: block; }
-  .project-uml .eyebrow { margin-bottom: 8px; }
-  .project-uml .project-copy > p:not(.eyebrow) { margin: 10px 0 12px; }
 }
 @media (max-width: 680px) {
   .wrap { width: calc(100% - 34px); }
